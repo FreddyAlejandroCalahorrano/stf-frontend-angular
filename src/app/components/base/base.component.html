@@ -1,0 +1,18 @@
+<app-sidebar
+  [closeSidebar]="isClosed"
+  [isDarkMode]="isDark"
+  (toggleEventEmitter)="onClickToggle($event)">
+</app-sidebar>
+
+<section class="home" [ngClass]="{'nav-close': isClosed}">
+
+  <div class="allButFooter" >
+    <!-- Your page's content goes here, including header, nav, aside, everything -->
+    <router-outlet *ngIf="!isIframe"></router-outlet>
+  </div>
+
+  <app-footer [class]="verifyIfWelcome() ? 'footer-pos' : ''" ></app-footer>
+
+</section>
+
+<external-assets></external-assets>

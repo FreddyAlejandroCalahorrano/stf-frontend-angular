@@ -1,0 +1,377 @@
+<div class="container" *ngIf="(this.personSkillList$ | async) && (this.typeSkillList$ | async) ; else elseError">
+
+  <div class="row">
+    <div class="col">
+      <pichincha-button
+        class="float-right w-25"
+        type="text"
+        color="primary"
+        (click)="onAddPersonaSkill()">
+        <pichincha-icon
+          class="mr-2"
+          size="18px"
+          color="error"
+          weight_color="900"
+          type="--outlined"
+        >
+          add_box
+        </pichincha-icon>
+        Agregar
+      </pichincha-button>
+    </div>
+  </div>
+
+
+  <div class="row mb-3 justify-content-between">
+    <div class="col-5" style="margin-top: 2%">
+
+      <form [formGroup]="fg">
+        <app-p-select
+          formControlName="typeSkills"
+          [items]="typeSkillList$ | async"
+        ></app-p-select>
+      </form>
+
+    </div>
+    <div class="col-4 ">
+      <pichincha-input
+        ngDefaultControl
+        [(ngModel)]="searchNameSkill[0]"
+        class="mb-2"
+        full-width="true"
+        type="text"
+        placeholder="Buscar"
+        max-length="21">
+      </pichincha-input>
+    </div>
+  </div>
+
+  <div class="table-responsive custom-tb">
+    <table class="table table-bordered table-striped">
+
+      <thead>
+      <tr>
+        <th>
+          <pichincha-typography
+            class="text-truncate"
+            variant="subtitle"
+            color="grey"
+            weight="normal"
+            weight_color="500"
+            align="inherit">
+            Tipo de Habilidad
+          </pichincha-typography>
+        </th>
+        <th>
+          <pichincha-typography
+            class="text-truncate"
+            variant="subtitle"
+            color="grey"
+            weight="normal"
+            weight_color="500"
+            align="inherit">
+            Nombre
+          </pichincha-typography>
+        </th>
+        <th>
+          <pichincha-typography
+            class="text-truncate"
+            variant="subtitle"
+            color="grey"
+            weight="normal"
+            weight_color="500"
+            align="inherit">
+            Acciones
+          </pichincha-typography>
+        </th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <div *ngIf="personSkillList.length === 0; else elsePersonaSkill">
+
+        <pichincha-typography
+          class="text-truncate mt-2"
+          variant="bodyText"
+          color="blue"
+          weight="normal"
+          weight_color="500"
+          align="inherit">
+          No tiene habilidades registradas
+        </pichincha-typography>
+
+      </div>
+
+      <ng-template #elsePersonaSkill>
+        <tr
+          *ngFor="let personaSkill of personSkillList$ | async | filterSkill: searchNameSkill[0] : fg?.get('typeSkills')?.value">
+          <td>
+            <pichincha-typography
+              class="text-truncate"
+              variant="bodyText"
+              color="blue"
+              weight="normal"
+              weight_color="500"
+              align="inherit">
+              {{personaSkill.typeSkill}}
+            </pichincha-typography>
+          </td>
+          <td>
+            <pichincha-typography
+              class="text-truncate"
+              variant="bodyText"
+              color="blue"
+              weight="normal"
+              weight_color="500"
+              align="inherit">
+              {{personaSkill.nameSkill}}
+            </pichincha-typography>
+          </td>
+          <td>
+            <pichincha-icon
+              class="justify-content-center pointer"
+              size="30px"
+              color="error"
+              weight_color="900"
+              type="&#45;&#45;outlined"
+              (click)="onDeletePersonaSkill(personaSkill)">delete
+            </pichincha-icon>
+          </td>
+        </tr>
+      </ng-template>
+      </tbody>
+
+    </table>
+  </div>
+
+
+</div>
+
+<ng-template #elseError>
+  <div style="text-align: center" class="no-person" *ngIf="false; else message">
+    <img src="assets/images/users-oops.png"
+         class="align-self-center text-center"
+         alt="Mensaje de error">
+    <pichincha-typography
+      variant="h4"
+      color="blue"
+      weight="normal"
+      weight_color="500"
+      align="center"
+      class="mt-4"
+    >
+      ¡Ooops! Página no disponible
+    </pichincha-typography>
+    <pichincha-typography
+      variant="bodyText"
+      color="blue"
+      weight="normal"
+      weight_color="500"
+      align="center"
+    >
+      Es posible que el enlace que seleccionaste esté roto o que se haya <br>eliminado la página.
+    </pichincha-typography>
+  </div>
+  <ng-template #message>
+    <div class="spinner">
+      <pichincha-spinner background="#ffdd00" border="4" color="#f3f4f7" size="96"></pichincha-spinner>
+    </div>
+  </ng-template>
+</ng-template>
+
+
+<!--MODALS-->
+
+<app-ui-modal #modalConfirm
+              [hideHeader]="true"
+>
+  <div class="app-modal-body">
+    <pichincha-typography
+      variant="bodyText"
+      color="blue"
+      weight="normal"
+      weight_color="500"
+      align="inherit"
+    >
+      {{modal.txtBody}}
+    </pichincha-typography>
+  </div>
+  <div class="app-modal-footer row " style="width: 100%; height: 100%;">
+    <div class="col-6">
+      <pichincha-button
+        size="small"
+        id="button"
+        color="secondary"
+        (click)="modalConfirm.hide()">
+        Cancelar
+      </pichincha-button>
+    </div>
+    <div class="col-6">
+      <pichincha-button
+        size="small"
+        id="button"
+        color="primary"
+        (click)="onConfirmDeletePersonaSkill()">
+        Aceptar
+      </pichincha-button>
+    </div>
+  </div>
+</app-ui-modal>
+
+
+<app-ui-modal #modalAddSkills
+              [dialogClass]="'modal-lg'"
+              [isScrollable]="true"
+>
+  <div class="app-modal-header w-100">
+    <pichincha-typography
+      variant="h6"
+      color="blue"
+      weight="bold"
+      weight_color="500"
+      align="center"
+    >
+      Agregar Habilidades
+    </pichincha-typography>
+  </div>
+
+  <div class="app-modal-body w-100">
+
+    <div class="row mb-3 px-3">
+      <div class="col-4" style="margin-top: 1.5%">
+        <form [formGroup]="fbModal">
+          <app-p-select
+            formControlName="typeSkillsModal"
+            [items]="typeSkillList$ | async"
+          ></app-p-select>
+        </form>
+      </div>
+      <div class="col-8">
+        <pichincha-input
+          ngDefaultControl
+          [(ngModel)]="searchNameSkill[1]"
+          class="mb-2"
+          full-width="true"
+          type="text"
+          placeholder="Buscar"
+          max-length="21">
+        </pichincha-input>
+      </div>
+    </div>
+
+    <div class="table-responsive px-3 custom-tb">
+      <table class="table table-bordered table-striped">
+
+        <thead>
+        <tr>
+          <th>
+            <pichincha-typography
+              class="text-truncate"
+              variant="subtitle"
+              color="grey"
+              weight="normal"
+              weight_color="500"
+              align="inherit">
+              Tipo de Habilidad
+            </pichincha-typography>
+          </th>
+          <th>
+            <pichincha-typography
+              class="text-truncate"
+              variant="subtitle"
+              color="grey"
+              weight="normal"
+              weight_color="500"
+              align="inherit">
+              Nombre
+            </pichincha-typography>
+          </th>
+          <th>
+            <pichincha-typography
+              class="text-truncate"
+              variant="subtitle"
+              color="grey"
+              weight="normal"
+              weight_color="500"
+              align="inherit">
+              Acciones
+            </pichincha-typography>
+          </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr
+          *ngFor="let personaSkill of skillsCatalog$ | async | filterSkill: searchNameSkill[1]: fbModal?.get('typeSkillsModal')?.value">
+          <td>
+            <pichincha-typography
+              class="text-truncate"
+              variant="bodyText"
+              color="blue"
+              weight="normal"
+              weight_color="500"
+              align="inherit">
+              {{personaSkill.typeSkill}}
+            </pichincha-typography>
+          </td>
+          <td>
+            <pichincha-typography
+              class="text-truncate"
+              variant="bodyText"
+              color="blue"
+              weight="normal"
+              weight_color="500"
+              align="inherit">
+              {{personaSkill.nameSkill}}
+            </pichincha-typography>
+          </td>
+          <td class="text-center">
+            <pichincha-check-box
+              class=""
+              id-element="{{personaSkill.nameSkill}}"
+              value="{{personaSkill.id}}"
+              (clickCheck)="onClickCheckbox($event, personaSkill)"
+            >
+            </pichincha-check-box>
+          </td>
+        </tr>
+        </tbody>
+
+      </table>
+    </div>
+
+    <pichincha-typography
+      class="text-truncate mt-2"
+      variant="smallText"
+      color="darkGrey"
+      weight="normal"
+      weight_color="500"
+      style="padding-left: 2%;"
+      align="inherit">
+      Total: {{submitSkills.length}}
+    </pichincha-typography>
+
+  </div>
+
+  <div class="app-modal-footer row w-100">
+    <div class="col-6">
+      <pichincha-button
+        size="small"
+        id="button"
+        color="secondary"
+        (click)="modalAddSkills.hide()">
+        Cancelar
+      </pichincha-button>
+    </div>
+    <div class="col-6">
+      <pichincha-button
+        size="small"
+        id="button"
+        color="primary"
+        (click)="onAddSkills()">
+        Guardar
+      </pichincha-button>
+    </div>
+  </div>
+
+</app-ui-modal>

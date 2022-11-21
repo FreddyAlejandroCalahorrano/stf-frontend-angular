@@ -1,0 +1,61 @@
+.card-list {
+  list-style: none;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.card-list:hover {
+  cursor: pointer;
+}
+
+.search {
+  display: flex;
+  justify-content: center;
+}
+
+.button-add-person {
+  align-items: center;
+}
+
+.ul {
+  margin-top: 0;
+  margin-bottom: 0;
+  overflow-y: scroll;
+  list-style: none;
+  padding-left: 0;
+  max-height: calc(100vh - 250px);
+}
+
+.line {
+  size: 8px;
+  color: black
+}
+
+.div-container {
+  padding: 0;
+  margin: 0;
+}
+
+hr {
+  background-color: rgba(139, 140, 141, 0);
+}
+
+.no-person {
+  text-align: left;
+  padding-left: 3%;
+  padding-top: 8%;
+
+}
+
+
+.spinner {
+  justify-content: center;
+  padding: 50% 0;
+}
+
+.custom-pt{
+  text-align: left;
+  padding-left: 2%;
+}

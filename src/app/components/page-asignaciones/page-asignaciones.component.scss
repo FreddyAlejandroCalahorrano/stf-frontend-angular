@@ -1,0 +1,112 @@
+.left-side {
+  border-style: solid;
+  border-color: #8b8c8d;
+  border-width: 0.5px;
+  //border-bottom-left-radius: 50px;
+  text-align: center;
+  //border-right: none;
+  margin-right: -1px;
+  margin-top: -1px;
+  background-color: rgb(247, 247, 247);
+  padding: 0;
+}
+
+.right-side {
+  margin-top: -1px;
+  border-style: solid;
+  border-color: #8b8c8d;
+  border-width: 0.5px;
+  background-color: rgb(247, 247, 247);
+  margin-right: -1px;
+  padding: 2.5% 4.5%;
+}
+
+.header-name {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.name-title-container {
+  display: flex;
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 7px;
+  align-items: center;
+
+}
+
+.name-title {
+  white-space: initial;
+}
+
+hr {
+  background-color: #8b8c8d;
+  height: 1px;
+}
+
+.right-side main {
+  /*height: 100px;*/
+}
+
+
+.col-asignaciones-title {
+
+  padding: 0 0 0 3%;
+}
+
+.col-checks-container {
+
+}
+
+.col-checks-container pichincha-check-box {
+  margin: 20px 0;
+  padding: 0;
+  /*  border-style: solid;
+    border-color: #8b8c8d;
+    border-width: 1px;*/
+}
+
+.check {
+  margin: 10%;
+  padding: 0;
+  font-size: 20px;
+
+  /*  border-style: solid;
+    border-color: #8b8c8d;
+    border-width: 1px;*/
+}
+
+.col-select-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.col-select {
+  text-align: center;
+  padding: 2%;
+}
+
+.col-checks-button {
+  margin: 10px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.col-checks-button pichincha-button {
+  overflow: hidden;
+  width: 50%;
+}
+
+
+.no-person {
+  justify-content: center;
+  padding: 10% 0;
+}
+
+
+.spinner {
+  justify-content: center;
+
+}

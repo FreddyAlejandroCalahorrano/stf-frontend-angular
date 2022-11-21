@@ -1,0 +1,35 @@
+<div class="bp-select" (focusout)="focusout($event)">
+  <div class="bp-select__input-container {{state}}"
+       [ngClass]="{ 'no-list':!open }" tabindex="0"
+       (click)="open = !open">
+    <div class="bp-select__input-child {{size}} {{state}}">
+      <label class="bp-select__list-item__label bp-select__text-overflow">
+        {{this.itemSelected ? this.itemSelected[displayExpr] : this.placeholder}}
+      </label>
+      <pichincha-icon class="bp-select__icon-arrow-down bp-ml-4">
+        arrow_drop_down
+      </pichincha-icon>
+    </div>
+
+    <ul class="bp-select__list-container"
+        [ngClass]="{'d-block': isOpen}">
+
+      <li *ngFor="let item of items; let idx= index"
+          id="option_{{idx}}"
+          class="bp-select__list-item cursor-pointer"
+          [ngClass]="{ 'bp-select__list-item-select': this.itemSelected && this.itemSelected[valueExpr] === item[valueExpr] }"
+          (click)="handleClick(item)">
+        <label
+          class="bp-select__list-item__label bp-select__text-overflow bp-select--medium bp-select--smallText"
+          >
+          {{item[displayExpr]}}
+        </label>
+        <pichincha-icon *ngIf="this.itemSelected && this.itemSelected[valueExpr] === item[valueExpr]"
+                        size="16px" color="blue"
+                        class="bp-select__icon-arrow-down bp-ml-4">
+          check
+        </pichincha-icon>
+      </li>
+    </ul>
+  </div>
+</div>

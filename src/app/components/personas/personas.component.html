@@ -1,0 +1,437 @@
+<div class="container pl-5 pr-5 container-custom ">
+  <!-- open={{messageBar.show}} status={{messageBar.status}} -->
+  <div class="h-100">
+    <div class="mb-3" style="margin-left: -1%; margin-right: -1%;">
+      <pichincha-message-bar
+        (closeMessage)="onClickMessage()"
+        idElement="global-message"
+        open={{messageBar.show}}
+        open="true"
+        variant="normal"
+        status={{messageBar.status}}
+        adjust-in="true"
+        allow-close="true"
+        [auto-close]="1000"
+      >
+        {{messageBar.text}}
+      </pichincha-message-bar>
+    </div>
+    <div class="h-100">
+      <div class="row justify-content-center h-100">
+
+        <div class="col-md-4 left-side border-0 text-truncate">
+          <app-list-persons
+            [data]="personas"
+            [selectPersona]="selectPersona"
+            (addPerson)="onAddPersonClick($event)"
+            (emitSelectPerson)="onSelectPerson($event)"
+            (noPerson)="noPerson($event)"
+          ></app-list-persons>
+        </div>
+
+        <div class="col-md-8 right-side border-0">
+
+          <div class="error" *ngIf="this.personas | async ; else elseError">
+            <div class="detail" *ngIf="showViewDetail; else elseBlock">
+              <header class="d-flex flex-wrap flex-row justify-content-between align-items-center ">
+                <pichincha-typography class="name-title "
+                                      variant="h4"
+                                      color="blue"
+                                      weight="bold"
+                                      weight_color="500"
+                                      align="inherit">
+                  {{selectPersona?.lastName + ' ' + selectPersona?.name | uppercase}}
+                </pichincha-typography>
+                <div class="d-flex" *ngIf="showEditDelet">
+                  <pichincha-button
+                    class="mr-1"
+                    size="small"
+                    id="button"
+                    color="secondary"
+                    (clickbutton)="onEditPersonaClick()">
+                    <pichincha-icon
+                      size="30px"
+                      color="error"
+                      weight_color="900"
+                      type="&#45;&#45;outlined">
+                      edit
+                    </pichincha-icon>
+                  </pichincha-button>
+                  <pichincha-button
+                    class="ml-1"
+                    size="small"
+                    id="button"
+                    color="secondary"
+                    (clickbutton)="showModal(1, null)">
+                    <pichincha-icon
+                      size="30px"
+                      color="error"
+                      weight_color="900"
+                      type="&#45;&#45;outlined">
+                      delete
+                    </pichincha-icon>
+                  </pichincha-button>
+                </div>
+              </header>
+              <hr>
+
+              <main class="px-2 py-2">
+
+                <ul class="nav nav-tabs">
+
+                  <li class="nav-item" *ngFor="let element of tabElements">
+                    <a class="nav-link tab-link pointer"
+                       [class.active]="element.isActive"
+                       (click)="onClickElementTab(element.id)">
+                      <pichincha-typography
+                        variant="h5"
+                        color="blue"
+                        weight="normal"
+                        weight_color="500"
+                        align="inherit"
+                      >
+                        {{element.name}}
+                      </pichincha-typography>
+                    </a>
+                  </li>
+
+                </ul>
+
+                <div class="mt-4" [ngSwitch]="currentTabId">
+
+                  <div *ngSwitchCase="'DP'">
+                    <!--#region datos personales-->
+                    <div class="row mb-2" style="margin: 0">
+                      <div class="col-md col-names-detail text-truncate">
+                        <pichincha-typography
+                          class="text-truncate"
+                          variant="bodyText"
+                          color="blue"
+                          weight="bold"
+                          weight_color="500"
+                          align="inherit">
+                          Nombre
+                        </pichincha-typography>
+                        <pichincha-typography
+                          class="text-truncate"
+                          variant="bodyText"
+                          color="darkGrey"
+                          weight="normal"
+                          weight_color="600"
+                          align="inherit">
+                          {{ selectPersona.name  }}
+                        </pichincha-typography>
+                      </div>
+                      <div class="col-md col-names-detail text-truncate">
+                        <pichincha-typography
+                          class="text-truncate"
+                          variant="bodyText"
+                          color="blue"
+                          weight="bold"
+                          weight_color="500"
+                          align="inherit">
+                          Apellido
+                        </pichincha-typography>
+                        <pichincha-typography
+                          class="text-truncate"
+                          variant="bodyText"
+                          color="darkGrey"
+                          weight="normal"
+                          weight_color="600"
+                          align="inherit">
+                          {{ selectPersona.lastName }}
+                        </pichincha-typography>
+                      </div>
+                    </div>
+
+                    <div class="row mb-2" style="margin: 0">
+                      <div class="col-md col-email-detail text-truncate">
+                        <pichincha-typography
+                          class="text-truncate "
+                          variant="bodyText"
+                          color="blue"
+                          weight="bold"
+                          weight_color="500"
+                          align="inherit">
+                          Correo electrónico
+                        </pichincha-typography>
+                        <pichincha-typography
+                          class="text-truncate"
+                          variant="bodyText"
+                          color="darkGrey"
+                          weight="normal"
+                          weight_color="600"
+                          align="inherit">
+                          {{ selectPersona.email }}
+                        </pichincha-typography>
+                      </div>
+                    </div>
+
+                    <div class="row mb-2" style="margin: 0">
+                      <div class="col-md col-born-date-detail text-truncate">
+                        <pichincha-typography
+                          class="text-truncate"
+                          variant="bodyText"
+                          color="blue"
+                          weight="bold"
+                          weight_color="500"
+                          align="inherit">
+                          Fecha de nacimiento
+                        </pichincha-typography>
+                        <pichincha-typography
+                          class="text-truncate"
+                          variant="bodyText"
+                          color="darkGrey"
+                          weight="normal"
+                          weight_color="600"
+                          align="inherit">
+                          {{ selectPersona.bornDate }}
+                        </pichincha-typography>
+                      </div>
+                      <div class="col-md col-role-detail text-truncate">
+                        <pichincha-typography
+                          class="text-truncate "
+                          variant="bodyText"
+                          color="blue"
+                          weight="bold"
+                          weight_color="500"
+                          align="inherit">
+                          Role
+                        </pichincha-typography>
+                        <pichincha-typography
+                          class="text-truncate "
+                          variant="bodyText"
+                          color="darkGrey"
+                          weight="normal"
+                          weight_color="600"
+                          align="inherit">
+                          {{ selectPersona.role }}
+                        </pichincha-typography>
+                      </div>
+                    </div>
+
+                    <div class="row mb-2" style="margin: 0">
+                      <div class="col-md col-home-address-detail text-truncate">
+                        <pichincha-typography
+                          class="text-truncate"
+                          variant="bodyText"
+                          color="blue"
+                          weight="bold"
+                          weight_color="500"
+                          align="inherit">
+                          Dirección domiciliaria
+                        </pichincha-typography>
+                        <pichincha-typography
+                          class="text-truncate"
+                          variant="bodyText"
+                          color="darkGrey"
+                          weight="normal"
+                          weight_color="600"
+                          align="inherit">
+                          {{ selectPersona.homeAddress }}
+                        </pichincha-typography>
+                      </div>
+                    </div>
+
+                    <div class="row mb-2" style="margin: 0">
+                      <div class="col-md col-identification-card-detail text-truncate">
+                        <pichincha-typography
+                          class="text-truncate"
+                          variant="bodyText"
+                          color="blue"
+                          weight="bold"
+                          weight_color="500"
+                          align="inherit">
+                          Identificación
+                        </pichincha-typography>
+                        <pichincha-typography
+                          class="text-truncate"
+                          variant="bodyText"
+                          color="darkGrey"
+                          weight="normal"
+                          weight_color="600"
+                          align="inherit">
+                          {{ selectPersona.identificationCard }}
+                        </pichincha-typography>
+                      </div>
+                      <div class="col-md col-phone-number-detail text-truncate">
+                        <pichincha-typography
+                          class="text-truncate"
+                          variant="bodyText"
+                          color="blue"
+                          weight="bold"
+                          weight_color="500"
+                          align="inherit">
+                          Número de teléfono
+                        </pichincha-typography>
+                        <pichincha-typography
+                          class="text-truncate"
+                          variant="bodyText"
+                          color="darkGrey"
+                          weight="normal"
+                          weight_color="600"
+                          align="inherit">
+                          {{ selectPersona.phoneNumber }}
+                        </pichincha-typography>
+                      </div>
+                    </div>
+
+                    <div class="row mb-2" style="margin: 0">
+                      <div class="col-md col-code-detail text-truncate">
+                        <pichincha-typography
+                          class="text-truncate"
+                          variant="bodyText"
+                          color="blue"
+                          weight="bold"
+                          weight_color="500"
+                          align="inherit">
+                          País
+                        </pichincha-typography>
+                        <pichincha-typography
+                          class="text-truncate"
+                          variant="bodyText"
+                          color="darkGrey"
+                          weight="normal"
+                          weight_color="600"
+                          align="inherit">
+                          {{ selectPersona.countryTo.description }}
+                        </pichincha-typography>
+                      </div>
+                      <div class="col-md col-code-detail text-truncate">
+                        <pichincha-typography
+                          class="text-truncate"
+                          variant="bodyText"
+                          color="blue"
+                          weight="bold"
+                          weight_color="500"
+                          align="inherit">
+                          Proveedor
+                        </pichincha-typography>
+                        <pichincha-typography
+                          class="text-truncate"
+                          variant="bodyText"
+                          color="darkGrey"
+                          weight="normal"
+                          weight_color="600"
+                          align="inherit">
+                          {{ selectPersona.providerTo.providerName }}
+                        </pichincha-typography>
+                      </div>
+                    </div>
+                    <!-- #endregion -->
+                  </div>
+
+                  <div *ngSwitchCase="'P'">
+                    <app-profiles-person
+                      [selectPersona]="selectPersona"
+                      (emitUpdatePeople)="getPeopleList($event)"
+                      (emitStatusMessageBar)="setupMessageBar($event)">
+                    </app-profiles-person>
+                  </div>
+
+                  <div *ngSwitchCase="'H'">
+                    <app-skills-personas
+                      [selectPersona]="selectPersona"
+                      (emitStatusMessageBar)="setupMessageBar($event)">
+
+                    </app-skills-personas>
+                  </div>
+
+                  <div *ngSwitchCase="'CH'">
+                    <app-chapter-personas
+                      [selectPersona]="selectPersona"
+                      (emitStatusMessageBar)="setupMessageBar($event)"
+                    >
+                    </app-chapter-personas>
+                  </div>
+                </div>
+              </main>
+
+            </div>
+            <ng-template #elseBlock>
+              <app-form-personas
+                [isEdit]="isEdit"
+                (submitEventEmitter)="showModal(2, $event)"
+                (cancelEventEmitter)="onCancelClick($event)"
+                [personaEdit]="selectPersona">
+              </app-form-personas>
+            </ng-template>
+          </div>
+          <ng-template #elseError>
+            <div style="text-align: center" class="no-person" *ngIf="this.messageNoPerson ; else message">
+              <img src="assets/images/users-oops.png"
+                   class="align-self-center text-center"
+                   alt="Mensaje de error">
+              <pichincha-typography
+                variant="h4"
+                color="blue"
+                weight="normal"
+                weight_color="500"
+                align="center"
+                class="mt-4"
+              >
+                ¡Ooops! Página no disponible
+              </pichincha-typography>
+              <pichincha-typography
+                variant="bodyText"
+                color="blue"
+                weight="normal"
+                weight_color="500"
+                align="center"
+              >
+                Es posible que el enlace que seleccionaste esté roto o que se haya <br>eliminado la página.
+              </pichincha-typography>
+            </div>
+            <ng-template #message>
+              <div class="spinner">
+                <pichincha-spinner background="#ffdd00" border="4" color="#f3f4f7" size="96"></pichincha-spinner>
+              </div>
+            </ng-template>
+          </ng-template>
+
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<app-ui-modal #modalConfirm
+              [hideHeader]="true"
+>
+  <div class="app-modal-body">
+    <pichincha-typography
+      variant="bodyText"
+      color="blue"
+      weight="normal"
+      weight_color="500"
+      align="inherit"
+    >
+      {{modal.txtBody}}
+    </pichincha-typography>
+  </div>
+  <div class="app-modal-footer row " style="width: 100%; height: 100%;">
+    <div class="col-6">
+      <pichincha-button
+        size="small"
+        id="button"
+        color="secondary"
+        (clickbutton)="modalConfirm.hide()">
+        Cancelar
+      </pichincha-button>
+    </div>
+    <div class="col-6">
+      <pichincha-button
+        size="small"
+        id="button"
+        color="primary"
+        (clickbutton)="confirm()">
+        Aceptar
+      </pichincha-button>
+    </div>
+  </div>
+</app-ui-modal>
+
+

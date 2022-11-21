@@ -1,0 +1,48 @@
+<div class="modal-header">
+
+  <pichincha-typography
+    variant="h4"
+    color="blue"
+    weight="normal"
+    weight_color="500"
+    align="inherit"
+    class="modal-title">
+    {{titleModal}}
+  </pichincha-typography>
+
+  <!--  <h4 class="modal-title">{{titleModal || 'Confirm'}}</h4>-->
+  <button type="button" class="close" aria-label="Close" (click)="close()">&times;</button>
+</div>
+<form [formGroup]="fg" (ngSubmit)="confirm()">
+  <div class="modal-body">
+
+
+    <app-p-select [items]="selectItems"
+                  formControlName="select"
+    ></app-p-select>
+
+
+    <pre>{{fg?.value | json}}</pre>
+
+  </div>
+  <div class="modal-footer">
+    <!--  <button type="button" class="btn btn-outline-danger" (click)="close()">Cancelar</button>-->
+<!--      <button type="submit" class="btn btn-primary" >Guardar</button>-->
+
+    <pichincha-button class="mr-1"
+                      size="small"
+                      color="secondary"
+                      (click)="close()">
+      Cancelar
+    </pichincha-button>
+    <pichincha-button class="mr-1"
+                      type="submit"
+                      size="small"
+                      [disabled]="fg.invalid"
+                      color="primary">
+      Aceptar
+    </pichincha-button>
+
+
+  </div>
+</form>

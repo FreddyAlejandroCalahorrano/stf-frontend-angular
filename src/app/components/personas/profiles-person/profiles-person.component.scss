@@ -1,0 +1,60 @@
+.col-asignaciones-title {
+
+  padding: 0 0 0 3%;
+}
+
+.col-checks-container {
+
+}
+
+.col-checks-container pichincha-check-box {
+  margin: 20px 0;
+  padding: 0;
+  /*  border-style: solid;
+    border-color: #8b8c8d;
+    border-width: 1px;*/
+}
+
+.check{
+  margin: 10% ;
+  padding: 0;
+  font-size: 20px;
+
+  /*  border-style: solid;
+    border-color: #8b8c8d;
+    border-width: 1px;*/
+}
+
+.col-select-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.col-select{
+  text-align: center;
+  padding: 2%;
+}
+
+.col-checks-button {
+  margin: 10px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.col-checks-button pichincha-button {
+  overflow: hidden;
+  width: 50%;
+}
+
+.no-catalogs{
+  justify-content: center;
+  padding: 10% 0;
+}
+
+
+.spinner{
+  justify-content: center;
+  padding: 20% 0;
+}

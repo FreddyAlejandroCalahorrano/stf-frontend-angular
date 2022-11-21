@@ -1,0 +1,117 @@
+<div *ngIf="(this.chapterCatalog | async) && errorMessage ; else elseError">
+    <div class="row my-3" style="margin: 0">
+        <div class="col-md col-asignaciones-title text-truncate">
+          <pichincha-typography
+            class="text-truncate"
+            variant="h4"
+            color="blue"
+            weight="bold"
+            weight_color="500"
+            align="inherit">
+            Chapters de Usuario
+          </pichincha-typography>
+        </div>
+      </div>
+      
+      <div class="row" style="margin: 0">
+        <div class="col-md-6 col-checks-container text-truncate"
+             *ngFor="let item of chapterSubmit">
+          <pichincha-check-box
+            (clickCheck)="onclickcheckbox($event)"
+            id-element={{item.id}}
+            disabled="false"
+            value={{item.chapterName}}
+            checked={{item.check}}>
+            <pichincha-typography variant="bodyText">
+              {{item.chapterName}}
+            </pichincha-typography>
+          </pichincha-check-box>
+        </div>
+      </div>
+      <div class="row mt-5" style="margin: 0">
+        <div class="col-md-12 col-checks-button">
+          <pichincha-button
+            class="asing-button"
+            (click)="asingChapterPerson()"
+            type="button"
+            disabled="false">
+            <pichincha-typography
+              class="name-title"
+              variant="bodyText"
+              color="black"
+              weight="bold"
+              weight_color="500"
+              align="inherit">
+              Asignar
+            </pichincha-typography>
+          </pichincha-button>
+        </div>
+      </div>
+</div>
+<ng-template #elseError>
+    <div style="text-align: center" class="no-person" *ngIf="this.noChapterCatalog ; else message">
+      <img src="assets/images/users-oops.png"
+           class="align-self-center text-center"
+           alt="Mensaje de error">
+      <pichincha-typography
+        variant="h4"
+        color="blue"
+        weight="normal"
+        weight_color="500"
+        align="center"
+        class="mt-4"
+      >
+        ¡Ooops! Página no disponible
+      </pichincha-typography>
+      <pichincha-typography
+        variant="bodyText"
+        color="blue"
+        weight="normal"
+        weight_color="500"
+        align="center"
+      >
+        Es posible que el enlace que seleccionaste esté roto o que se haya <br>eliminado la página.
+      </pichincha-typography>
+    </div>
+    <ng-template #message>
+      <div class="spinner">
+        <pichincha-spinner background="#ffdd00" border="4" color="#f3f4f7" size="96"></pichincha-spinner>
+      </div>
+    </ng-template>
+  </ng-template>
+
+
+<app-ui-modal #modalConfirm
+              [hideHeader]="true">
+  <div class="app-modal-body">
+    <pichincha-typography
+      variant="bodyText"
+      color="blue"
+      weight="normal"
+      weight_color="500"
+      align="inherit"
+    >
+      {{modaltxtBody}}
+    </pichincha-typography>
+  </div>
+  <div class="app-modal-footer row " style="width: 100%; height: 100%;">
+    <div class="col-6">
+      <pichincha-button
+        size="small"
+        id="button"
+        color="secondary"
+        (clickbutton)="modalConfirm.hide()">
+        Cancelar
+      </pichincha-button>
+    </div>
+    <div class="col-6">
+      <pichincha-button
+        size="small"
+        id="button"
+        color="primary"
+        (clickbutton)="confirm()">
+        Aceptar
+      </pichincha-button>
+    </div>
+  </div>
+</app-ui-modal>

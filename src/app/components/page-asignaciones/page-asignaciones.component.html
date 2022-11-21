@@ -1,0 +1,221 @@
+<div class="row p-5">
+  <div class="col">
+
+    <form [formGroup]="fg">
+
+
+      <app-p-select [items]="selectItems"
+                    formControlName="select"
+      ></app-p-select>
+
+
+      <!--<pichincha-input
+        id="inputPhoneNumber"
+        appInputAccessor
+        full-width="true"
+        formControlName="phoneNumber"
+        type="text"
+        placeholder="Ingresa tu Número de Teléfono"
+        idElement="inputPhoneNumber">
+      </pichincha-input>-->
+
+      <button type="button" class="mt-4 btn btn-primary" (click)="setValue()">
+        Set Value
+      </button>
+
+      <button type="reset" class="mt-4 btn btn-primary">
+        reset
+      </button>
+    </form>
+
+    <pre class="mt-4">
+      {{ fg.value | json }}
+    </pre>
+  </div>
+</div>
+
+
+<!--
+<div class="container-fluid">
+  <div class="row py-5 mx-5">
+    <div class="col-8 offset-2">
+      <div class="row justify-content-center">
+
+        <div class="col-md-4 left-side text-truncate">
+          <app-list-persons
+            [showAddPersonButton] = false
+            [data]="personas"
+            (emitSelectPerson)="onSelectPerson($event)"
+            (noPerson)="noPerson($event)"
+          ></app-list-persons>
+        </div>
+
+        <div class="col-md-8 right-side">
+
+
+          <div
+            *ngIf="(this.personas | async) && (this.profilesCatalog | async) && (this.personProfileList | async) ; else elseError">
+
+            <header class="header-name">
+
+              <div class="col-md name-title-container">
+                <pichincha-typography
+                  class="name-title "
+                  variant="h3"
+                  color="blue"
+                  weight="bold"
+                  weight_color="500"
+                  align="inherit">
+                  {{ selectPersona.lastName + " " + selectPersona.name | uppercase }}
+                </pichincha-typography>
+              </div>
+
+
+            </header>
+
+            <hr>
+
+            <main class="px-2 py-2">
+
+              <form
+                [formGroup]="personaProfileFormGroup" (ngSubmit)="onSubmit()">
+
+                <div class="row my-3" style="margin: 0">
+                  <div class="col-md col-asignaciones-title text-truncate">
+                    <pichincha-typography
+                      class="text-truncate"
+                      variant="h4"
+                      color="blue"
+                      weight="bold"
+                      weight_color="500"
+                      align="inherit">
+                      Asignaciones
+                    </pichincha-typography>
+                  </div>
+                </div>
+
+                <div class="row text-truncate" style="margin: 0">
+
+                  <div class="col-md-6 col-checks-container text-truncate"
+                       formArrayName="profiles"
+                       *ngFor="let item of profilesCatalog | async; let i = index">
+
+                    <div class="form-check check">
+                      <input class="form-check-input" type="checkbox" value="" [id]="i"
+                             [formControlName]="i">
+
+                      <label class="form-check-label" [for]="i">
+
+                        <pichincha-typography
+                          class="text-truncate"
+                          variant="h6"
+                          color="blue"
+                          weight="normal"
+                          weight_color="500"
+                          align="inherit">
+                          {{item.nameProfile}}
+                        </pichincha-typography>
+
+                      </label>
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-6 col-checks-container text-truncate">
+                    <pichincha-typography
+                      class="text-truncate mt-3"
+                      variant="smallText"
+                      color="darkGrey"
+                      weight="bold"
+                      weight_color="500"
+                      style="padding-left: 2%"
+                      align="inherit">
+                      Perfil principal
+                    </pichincha-typography>
+                  </div>
+
+                  <div class="col-md-6 col-checks-container text-truncate">
+                    <select
+                      formControlName="mainProfile"
+                      class="form-control mt-3"
+                      full-width="true"
+                      style="width: 90%;padding-left: 3%;">
+                      <option value="" disabled [selected]="true">
+                        Seleccione una opción
+                      </option>
+
+                      <option *ngFor="let item of selectOptionsProfile"
+                              value="{{item?.name}}">
+                        {{item?.name}}
+                      </option>
+                    </select>
+
+                  </div>
+
+                </div>
+
+                <div class="row mt-5" style="margin: 0">
+                  <div class="col-md-12 col-checks-button">
+                    <pichincha-button
+                      (click)="onSubmit()"
+                      type="button"
+                      disabled="{{this.personaProfileFormGroup.invalid}}">
+                      <pichincha-typography
+                        class="name-title"
+                        variant="bodyText"
+                        color="black"
+                        weight="bold"
+                        weight_color="500"
+                        align="inherit">
+                        Asignar
+                      </pichincha-typography>
+                    </pichincha-button>
+                  </div>
+                </div>
+
+              </form>
+
+
+            </main>
+
+          </div>
+
+          <ng-template #elseError>
+            <div style="text-align: center" class="no-catalogs" *ngIf="this.messageNoPerson ; else message">
+              <img src="assets/images/users-oops.png"
+                   class="align-self-center text-center"
+                   alt="Mensaje de error">
+              <pichincha-typography
+                variant="h4"
+                color="blue"
+                weight="normal"
+                weight_color="500"
+                align="center"
+                class="mt-4"
+              >
+                ¡Ooops! Página no disponible
+              </pichincha-typography>
+              <pichincha-typography
+                variant="bodyText"
+                color="blue"
+                weight="normal"
+                weight_color="500"
+                align="center"
+              >
+                Es posible que el enlace que seleccionaste esté roto o que se haya <br>eliminado la página.
+              </pichincha-typography>
+            </div>
+            <ng-template #message>
+              <div class="spinner">
+                <pichincha-spinner background="#ffdd00" border="4" color="#f3f4f7" size="96"></pichincha-spinner>
+              </div>
+            </ng-template>
+          </ng-template>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+-->

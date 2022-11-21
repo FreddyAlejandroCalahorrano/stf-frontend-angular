@@ -1,0 +1,32 @@
+div.container pichincha-button {
+  margin-bottom: 2%;
+}
+
+div.table-responsive {
+  /*margin-top: 15%;*/
+}
+
+
+app-p-select {
+  width: 10%;
+  padding-bottom: 50%;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.spinner{
+  justify-content: center;
+  padding: 20% 0;
+}
+
+.custom-tb-modal{
+  overflow-y: scroll;
+  max-height: calc(100vh - 250px);
+}
+
+.custom-tb{
+  overflow-y: scroll;
+  max-height: 300px
+}

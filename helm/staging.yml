@@ -1,0 +1,93 @@
+##### Esto es editable por el programador ##########
+variables:
+  own:
+    config:
+      #General
+      - name:  "CONNECT_TIMEOUT"
+        value: "10000"
+      - name:  "READ_TIMEOUT"
+        value: "10000"
+      - name: "ENVIRONMENT"
+        value: "staging"
+      #Own
+      - name:  "MAX_IN_MEMORY_SIZE"
+        value: "5242880"
+      - name:  "GOOGLE_RECAPTCHA_URL"
+        value: "https://www.google.com/recaptcha/api/siteverify"
+      - name:  "GOOGLE_RECAPTCHA_PROFILE_DEV"
+        value: "true"
+
+    secret:
+      - name:  "GOOGLE_RECAPTCHA_SECRET"
+      - name:  "GOOGLE_RECAPTCHA_SCORE_MIN"
+
+  common:
+    config: {}
+    secret: {}
+
+#######Esto es editable por el DevOps#######
+
+global:
+  environment: "staging"
+  replicaCount: "1"
+  revisionHistoryLimit: "5"
+  minReadySeconds: "0"
+  version: "v1"
+
+container:
+  registry: "bancopichinchaec.azurecr.io"
+  tag: "2019.11.25-16.30.32"
+  pullPolicy: "IfNotPresent"
+  livenessProbe:
+    exec:
+      command:
+        - /bin/sh
+        - -c
+        - |
+          if [ "$(curl -s http://localhost:8080/actuator/health | cut -d "{" -f 2 | cut -d "}" -f 1 | cut -d "," -f 1 )" != '"status":"UP"' ];then exit 1; fi
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    failureThreshold: 12
+  readinessProbe:
+    exec:
+      command:
+        - /bin/sh
+        - -c
+        - |
+          if [ "$(curl -s http://localhost:8080/actuator/health | cut -d "{" -f 2 | cut -d "}" -f 1 | cut -d "," -f 1 )" != '"status":"UP"' ];then exit 1; fi
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    failureThreshold: 12
+  resources:
+    requests:
+      cpu: 50m
+      memory: 384Mi
+    limits:
+      #cpu: 250m
+      memory: 768Mi
+  port:
+    - name: msa-port
+      servicePort: 80
+      containerPort: 8080
+      protocol: TCP
+  volumeMounts:
+    - name: init-sh
+      mountPath: /opt/build/init.sh
+      subPath: init.sh
+
+hpa:
+  minReplicas: 1
+  maxReplicas: 1
+  targetMemory: 768Mi
+  targetCpu: 100m
+
+pdb:
+  minAvailable: 1
+
+volumes:
+  - name: init-sh
+    configMap:
+      name: configmap-creditohipotecario
+      items:
+        - key: init.sh
+          path: init.sh

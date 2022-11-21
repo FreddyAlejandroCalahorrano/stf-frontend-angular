@@ -1,0 +1,78 @@
+<div class="div-container p-3">
+  <pichincha-input type="text" full-width="true"
+                   ngDefaultControl
+                   [(ngModel)]="searchText"
+                   class="w-100"
+                   (ngModelChange)="search()" placeholder="Buscar"
+  ></pichincha-input>
+  <hr>
+  <pichincha-button
+                    *ngIf="showAddPersonButton"
+                    type="button"
+                    class="w-100"
+                    (click)="onClickAddPerson()"
+                    disabled="{{enableAddButton}}">
+                    <pichincha-icon
+                      class="mr-2"
+                      size="20px"
+                      color="error"
+                      weight_color="900"
+                      type="--outlined"
+                      >
+                      person_add
+                    </pichincha-icon>
+                    Agregar persona
+  </pichincha-button>
+  <hr class="mb-0">
+
+  <div *ngIf="this.data | async ; else elseError">
+
+    <pichincha-typography
+      class="text-truncate my-2 custom-pt"
+      variant="smallText"
+      color="darkGrey"
+      weight="normal"
+      weight_color="500"
+      align="inherit">
+      Total: {{personasLength}}
+    </pichincha-typography>
+
+    <ul class="ul">
+      <li class="card-list" (click)="onClickSelectPerson(item)"
+          *ngFor="let item of data | async | filterPerson: searchText">
+        <div class="w-100"
+             [ngStyle]="{'background-color': item.id === selectedPersonId ? '#fffadb':'rgb(247, 247, 247)'}">
+          <pichincha-typography
+            variant="bodyText"
+            color="blue"
+            weight="normal"
+            weight_color="500"
+            align="inherit"
+            style="margin-left: 10px; margin-top: 15px;">
+            <p>{{(item.lastName + ' ' + item.name) | uppercase }}</p>
+            <p>{{item.email}}</p>
+          </pichincha-typography>
+          <hr class="mb-0">
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <ng-template #elseError>
+    <div class="no-person" *ngIf="this.messageNoPerson ; else message">
+      <pichincha-typography
+        variant="typography"
+        color="blue"
+        weight="normal"
+        weight_color="500"
+        align="inherit">
+        No existe información
+      </pichincha-typography>
+    </div>
+    <ng-template #message>
+      <div class="spinner">
+        <pichincha-spinner background="#ffdd00" border="4" color="#f3f4f7" size="96"></pichincha-spinner>
+      </div>
+    </ng-template>
+  </ng-template>
+</div>
